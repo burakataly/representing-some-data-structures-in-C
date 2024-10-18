@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//https://algorithmtutor.com/Data-Structures/Tree/Splay-Trees/
-
 typedef struct node{
 	int key;
 	struct node* left;
@@ -96,7 +94,7 @@ NODE* insertNode(NODE** root, int key){
 	}
 	if(node -> key >= key){
 		node -> left = createNode(key);
-		node -> left -> parent = node; //parent'ýný ekleme ihityacý varsa diye
+		node -> left -> parent = node; //parent'Ã½nÃ½ ekleme ihityacÃ½ varsa diye
 		return node -> left;
 	}
 	if(node -> key < key){
