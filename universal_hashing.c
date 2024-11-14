@@ -69,7 +69,7 @@ int main(){
 	for(i=17;i<34;i++){
 		set(&map, i, "burak");
 	}
-	//removePair(map, 14);
+	removePair(map, 14);
 	printMap(map);
 	set(&map, 600, "ali");
 	printMap(map);
@@ -135,6 +135,7 @@ void set(MAP** map, int key, char* name){
 	
 	while(temp != NULL){
 		if(temp->key == key){ //if key is already in the chain, we change the value of the key - value pair.
+			temp->value = (char*) realloc(temp->value, (strlen(name) + 1) * sizeof(char));
 			strcpy(temp->value, name);
 			return;
 		}
@@ -146,7 +147,8 @@ void set(MAP** map, int key, char* name){
 	(*map)->chainingList[chain] = node;
 	
 	(*map)->n++;
-	*map = resizeMap(*map);
+	double load_factor = (*map)->n / (*map)->m;
+	if(load_factor >= 1) *map = resizeMap(*map);
 }
 
 char* get(MAP* map, int key){
@@ -155,7 +157,7 @@ char* get(MAP* map, int key){
 	while(temp != NULL && temp->key != key){
 		temp = temp->next;
 	};
-	return (temp != NULL) ? temp->value : '\0'; 
+	return (temp != NULL) ? temp->value : "NOT FOUND"; 
 }
 
 void removePair(MAP* map, int key){
@@ -204,27 +206,21 @@ when n is doubled in size, the complexity can be calculated with amortized analy
 complexity for adding new key for each adding operation is constant, O(1)...
 */
 MAP* resizeMap(MAP* map){ //resizing the map if load factor becomes exceeds 1 since we would get long chains when it is bigger than 1
-	int load_factor = map->n / map->m;
-	
-	if(load_factor >= 1){
-		int i;
-		MAP* newMap = createHashMap(map->m * 2);
-		newMap->p = map->p;
-		newMap->a = rand() % (newMap->p - 1) + 1;
-		newMap->b = rand() % (newMap->p);
-		for(i=0;i<map->m;i++){
-			NODE* temp = map->chainingList[i];
-			while(temp != NULL){
-				set(&newMap, temp->key, temp->value);
-				temp = temp->next;
-			}
+	int i;
+	MAP* newMap = createHashMap(map->m * 2);
+	newMap->p = map->p;
+	newMap->a = rand() % (newMap->p - 1) + 1;
+	newMap->b = rand() % (newMap->p);
+	for(i=0;i<map->m;i++){
+		NODE* temp = map->chainingList[i];
+		while(temp != NULL){
+			set(&newMap, temp->key, temp->value);
+			temp = temp->next;
 		}
-		
-		free(map);
-		return newMap;
 	}
 	
-	return map;
+	freeMap(map);
+	return newMap;
 }
 
 void printMap(MAP* map){
