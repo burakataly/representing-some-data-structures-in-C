@@ -72,7 +72,7 @@ void append(VECTOR* vector, int i){
 void pop(Vector* vector){
 	vector->size--;
 	if(4 * vector->size == vector->capacity){ //make the array smaller since 3/4 of the space is wasted
-		vector->capacity /= 4;
+		vector->capacity /= 2;
 		int* temp = (int*) realloc(vector->arr, vector->capacity * sizeof(int));
 		if(temp != NULL){
 			vector->arr = temp;
