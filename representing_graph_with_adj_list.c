@@ -2,20 +2,16 @@
 #include<stdlib.h>
 
 
-//vertex: node'un etiketi / indexi
-struct node{
+//vertex: label of the node
+typedef struct node{
 	int vertex;
 	struct node* next;
-};
+}NODE;
 
-typedef struct node NODE;
-
-struct diGraph{
+typedef struct diGraph{
 	int numOfNodes;
 	NODE** adjList;
-};
-
-typedef struct diGraph DiGRAPH;
+}DiGRAPH;
 
 NODE* createNode(int);
 DiGRAPH* createDiGraph(int);
@@ -58,10 +54,15 @@ void addEdges(DiGRAPH* diGraph, int src, int dest){
 	if(src == dest || src >= diGraph->numOfNodes || dest >= diGraph->numOfNodes) return;
 	if(hasEdge(diGraph, src, dest)) return;
 	
-	// Add edge from src to dest (PushFront is being done.)
+	//adding edge from src to dest
 	NODE* newNode = createNode(dest);
 	newNode->next = diGraph->adjList[src];
 	diGraph->adjList[src] = newNode;
+	
+	//adding edge from dest to src
+	newNode = createNode(src);
+	newNode->next = diGraph->adjList[dest];
+	diGraph->adjList[dest] = newNode;
 }
 
 int hasEdge(DiGRAPH* diGraph, int src, int dest){
@@ -76,7 +77,7 @@ int hasEdge(DiGRAPH* diGraph, int src, int dest){
 void printAdjList(DiGRAPH* diGraph){
 	int i;
 	for(i=0; i<diGraph->numOfNodes; i++) {
-	    printf("%d -> ", i); // hangi node'un komþularý.
+	    printf("%d -> ", i);
 	    NODE* temp = diGraph -> adjList[i];
 	    while(temp != NULL) {
 	        printf("%d, ", temp -> vertex);

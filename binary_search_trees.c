@@ -90,12 +90,12 @@ NODE* createNode(int key){
 	return node;
 }
 
-//binary search yardýmýyla ekleme yapýlýyor. Ancak self balanced bir bst deðil tabii ki.
+//inserting by using binary search
 NODE* insertNode(int key, NODE* node){
 	if(node == NULL) return createNode(key);
 	if(node -> key >= key){
 		node -> left = insertNode(key, node -> left);
-		node -> left -> parent = node; //parent'ýný ekleme ihityacý varsa diye
+		node -> left -> parent = node;
 	} 
 	if(node -> key < key){
 		node -> right = insertNode(key, node -> right);
