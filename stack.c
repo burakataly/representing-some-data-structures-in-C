@@ -1,19 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//stack veri yapýsýnda son eklenen eleman ilk çýkar, ilk eklenen eleman son çýkar. Yapýlabilen iþlemler sadece en üstteki elemaný silmek, 
-//en üste eleman eklemek ve en üstteki elemaný görüntülemektir. stack uygulamak için hem linked list hem array kullanabilirsin.
-
-//stack için array implementasyonun eksisi, sýnýrlý bir memory var. linked list olanýnýn eksisi ise her bir data için ayrýca pointer tutmak
-//zorundayýz...
-
 typedef struct n{
 	int x;
 	struct n* next;
 }stack;
 
 //linked list olaný için fonklar
-//stack'e yeni eleman eklemek için
 void push(stack **head, int i){
 	stack *temp = (stack*) malloc(sizeof(stack));
 	temp -> x = i;
@@ -21,13 +14,11 @@ void push(stack **head, int i){
 	*head = temp;
 }
 
-//stack'e en son eklenmiþ elemaný göstermek için
 void top(stack *head){
 	if(head == NULL) printf("stack is empty");
 	else printf("%d\n", head -> x);
 }
 
-//stack'in en üstündeki elemaný silmek için
 void pop(stack **head){
 	if(*head == NULL) printf("stack is already empty...");
 	else{
