@@ -3,8 +3,8 @@
 #include <string.h>
 #include <math.h>
 #include <time.h>
-#define M 30
-#define N 100 //the range of input keys
+#define M 11
+#define N 1000 //the range of input keys
 
 /*
 universal hashing is having a prime number p which is slightly bigger than the range of input keys and selecting a and b values randomly in range (0, p-1).
@@ -66,7 +66,7 @@ int main(){
 	
 	printMap(map);
 
-	for(i=17;i<34;i++){
+	for(i=17;i<500;i++){
 		set(&map, i, "burak");
 	}
 	removePair(map, 14);
@@ -206,8 +206,9 @@ when n is doubled in size, the complexity can be calculated with amortized analy
 complexity for adding new key for each adding operation is constant, O(1)...
 */
 MAP* resizeMap(MAP* map){ //resizing the map if load factor becomes exceeds 1 since we would get long chains when it is bigger than 1
-	int i;
-	MAP* newMap = createHashMap(map->m * 2);
+	printf("resizing... m: %d\n", map->m);
+	int i, newSize = findNextPrime(map->m * 2); //doubled the size and also selected the smallest prime bigger than that number
+	MAP* newMap = createHashMap(newSize);
 	newMap->p = map->p;
 	newMap->a = rand() % (newMap->p - 1) + 1;
 	newMap->b = rand() % (newMap->p);

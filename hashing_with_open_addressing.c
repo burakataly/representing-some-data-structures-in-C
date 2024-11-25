@@ -171,8 +171,8 @@ complexity for adding new key for each adding operation is constant, O(1)...
 */
 MAP* resizeMap(MAP* map){ //resizing the map if load factor becomes exceeds 0.7 since complexity for each operation would be high wihcih is 1 /(1-load_factor)
 	printf("resizing... m: %d\n", map->m);
-	int i;
-	MAP* newMap = createHashMap(map->m * 2);
+	int i, newSize = findNextPrime(map->m * 2); //doubled the size and also selected the smallest prime bigger than that number
+	MAP* newMap = createHashMap(newSize);
 	newMap->p = map->p;
 	newMap->a = rand() % (newMap->p - 1) + 1;
 	newMap->b = rand() % (newMap->p);
